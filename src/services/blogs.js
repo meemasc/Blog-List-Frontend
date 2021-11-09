@@ -21,10 +21,17 @@ const create = async newObject => {
 }
 
 const update = (id, newObject) => {
-  const request = axios.put(`${ baseUrl } /${id}`, newObject)
+  const request = axios.put(`${baseUrl}/${id}`, newObject)
   return request.then(response => response.data)
 }
 
+const clean = async (id) => {
+  const config = {    
+    headers: { Authorization: token },  
+  }
+  await axios.delete(`${baseUrl}/${id}`, config)
+}
 
-const object = {getAll, create, setToken, update}
+
+const object = {getAll, create, setToken, update, clean}
 export default object
