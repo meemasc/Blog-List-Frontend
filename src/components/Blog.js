@@ -1,8 +1,8 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import blogService from '../services/blogs'
 
 
-const Blog = ({blog, user, handleRemoveButton}) => {
+const Blog = ({ blog, user, handleRemoveButton, handleLikeButtonTest }) => {
   const [visible, setVisible] = useState(false)
   const [totalLikes, setTotalLikes] = useState(blog.likes)
 
@@ -30,37 +30,43 @@ const Blog = ({blog, user, handleRemoveButton}) => {
     display: isBlogThisUsers() ? '' : 'none'
   }
 
-  const handleLikeButton = async () => {
-    const newBlog = {
-      ...blog,
-      likes: totalLikes + 1
+  //handleLikeButtonTest is used to test this component
+  const handleLikeButton = handleLikeButtonTest ?
+    handleLikeButtonTest :
+    async () => {
+      const newBlog = {
+        ...blog,
+        likes: totalLikes + 1
+      }
+
+      await blogService.update(blog.id, newBlog)
+      setTotalLikes(totalLikes + 1)
     }
 
-    await blogService.update(blog.id, newBlog)
-    setTotalLikes(totalLikes + 1)
-  }
-
-  
 
   const hiddenBlog = () => (
-    <div>
-      {blog.title + ' '}
+    <div className='hiddenBlog'>
+      {`${blog.title} ${blog.author}`}
       <button onClick={toggleVisibility}>view</button>
     </div>
   )
 
   const shownBlog = () => (
-    <div>
+    <div className='shownBlog'>
       <div>
-        {blog.title + ' '}
+        {`${blog.title} ${blog.author}`}
         <button onClick={toggleVisibility}>hide</button>
       </div>
-      <div>{blog.url}</div>
+      <div>
+        {blog.url}
+      </div>
       <div>
         {`likes ${totalLikes} `}
         <button onClick={handleLikeButton}>like</button>
       </div>
-      <div>{blog.author}</div>
+      <div>
+        {blog.user.name}
+      </div>
       <div >
         <button style={removeButtonStyle} onClick={handleRemoveButton(blog)}>remove</button>
       </div>
@@ -70,7 +76,7 @@ const Blog = ({blog, user, handleRemoveButton}) => {
   return (
     <div style={blogStyle}>
       {visible ? shownBlog() : hiddenBlog()}
-    </div>  
+    </div>
   )
 }
 

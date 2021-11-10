@@ -1,7 +1,7 @@
 import React from 'react'
 
-const Notification = ({message, messageColor}) => {
-  
+const Notification = ({ message, messageColor }) => {
+
   const notificationStyle = {
     color: messageColor,
     background: 'lightgrey',
@@ -16,7 +16,7 @@ const Notification = ({message, messageColor}) => {
     return (
       <div style={notificationStyle}>
         {message}
-      </div>  
+      </div>
     )
   } else {
     return (<></>)

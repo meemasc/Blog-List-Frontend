@@ -14,32 +14,32 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
-  useEffect(() => {    
-    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')    
-    if (loggedUserJSON) {      
-      const user = JSON.parse(loggedUserJSON)      
-      setUser(user)      
-      blogService.setToken(user.token)    
-    }  
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      blogService.setToken(user.token)
+    }
   }, [])
 
   const loginForm = () => (
-    <LoginForm user={user} setUser={setUser} setMessage={setMessage} 
-    setMessageColor={setMessageColor} />
+    <LoginForm setUser={setUser} setMessage={setMessage}
+      setMessageColor={setMessageColor} />
   )
 
   const loggedUser = () => (
     <LoggedUser user={user} setUser={setUser} blogs={blogs} setBlogs={setBlogs}
-    setMessage={setMessage} setMessageColor={setMessageColor} />
+      setMessage={setMessage} setMessageColor={setMessageColor} />
   )
 
   return (
     <div>
       <Notification message={message} messageColor={messageColor} />
-      {user === null && loginForm()}      
+      {user === null && loginForm()}
       {user !== null && loggedUser()}
     </div>
   )
